@@ -1,8 +1,10 @@
 package com.example.android.miwok;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +17,22 @@ import java.util.ArrayList;
 public class WordAdapter extends ArrayAdapter<Word> {
 
     /**
+     * Resource ID of the color for the background for this list of words.
+     */
+    private int mColorResourceID;
+
+    /**
      * This is our own custom constructor (it doesn't mirror a superclass constructor).
      * The context is used to inflate the layout file, and the list is the data we want
      * to populate into the lists.
      *
      * @param context The current context. Used to inflate the layout file.
      * @param words A List of Word objects to display in a list
+     * @param colorResourceID the color id to be set as a background color for this list of words.
      */
-    public WordAdapter(Activity context, ArrayList<Word> words) {
+    public WordAdapter(Activity context, ArrayList<Word> words, int colorResourceID) {
         super(context, 0, words);
+        mColorResourceID = colorResourceID;
     }
 
 
@@ -47,6 +56,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
         }
 
 
+
         // Get the {@link AndroidFlavor} object located at this position in the list
         Word currentWord = getItem(position);
 
@@ -62,13 +72,38 @@ public class WordAdapter extends ArrayAdapter<Word> {
         // set this text on the number TextView
         miwokTextView.setText(currentWord.getMiwokTranslation());
 
-        /*
-        // Find the ImageView in the list_item.xml layout with the ID list_item_icon
-        ImageView iconView = (ImageView) listItemView.findViewById(R.id.list_item_icon);
-        // Get the image resource ID from the current AndroidFlavor object and
-        // set the image to iconView
-        iconView.setImageResource(currentAndroidFlavor.getImageResourceId());
-        */
+
+        ImageView imageView = (ImageView) listItemView.findViewById(R.id.image);
+
+        if (currentWord.hasImage()) {
+            imageView.setImageResource(currentWord.getImageResourceID());
+
+            // make sure the image is visible again. Seems to work without it, but left it here anyway..
+            imageView.setVisibility(View.VISIBLE);
+        }
+        else {
+            // Hide (GONE - takes up no space in the layoyt) the ImageView since there is no image to show.
+            imageView.setVisibility(View.GONE);
+        }
+
+
+        // Set the theme color for the list item
+        View textContainer = listItemView.findViewById(R.id.text_container);
+
+        // Find the color that the resource ID maps to
+        int color = ContextCompat.getColor(getContext(), mColorResourceID);
+
+        // Set the background color of the text container View
+        textContainer.setBackgroundColor(color);
+
+        // following code also works (instead of previous TWO lines).
+        // but keeping previous, probably better for compatibility reasons ....
+        //textContainer.setBackgroundResource(mColorResourceID);
+
+
+        //listItemView.setBackgroundColor(backgroundColor);
+
+
 
         // Return the whole list item layout (containing 2 TextViews)
         // so that it can be shown in the ListView

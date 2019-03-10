@@ -2,6 +2,7 @@ package com.example.android.miwok;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -19,18 +20,18 @@ public class NumbersActivity extends AppCompatActivity {
 
         ArrayList<Word> words = new ArrayList<Word>();
 
-        words.add(new Word("one", "ένα"));
-        words.add(new Word("two", "δύο"));
-        words.add(new Word("three", "τρία"));
-        words.add(new Word("four", "τέσσερα"));
+        words.add(new Word("one", "ένα", R.drawable.number_one));
+        words.add(new Word("two", "δύο", R.drawable.number_two));
+        words.add(new Word("three", "τρία", R.drawable.number_three));
+        words.add(new Word("four", "τέσσερα", R.drawable.number_four));
 
-        words.add(new Word("five", "πέντε"));
-        words.add(new Word("six", "έξι"));
-        words.add(new Word("seven", "εφτά"));
-        words.add(new Word("eight", "οχτώ"));
+        words.add(new Word("five", "πέντε", R.drawable.number_five));
+        words.add(new Word("six", "έξι", R.drawable.number_six));
+        words.add(new Word("seven", "εφτά", R.drawable.number_seven));
+        words.add(new Word("eight", "οχτώ", R.drawable.number_eight));
 
-        words.add(new Word("nine", "εννιά"));
-        words.add(new Word("ten", "δέκα"));
+        words.add(new Word("nine", "εννιά", R.drawable.number_nine));
+        words.add(new Word("ten", "δέκα", R.drawable.number_ten));
 
 
         // Log.v("NumbersActivity", "word at ArrayList index 9 is: " + words.get(9));
@@ -62,7 +63,7 @@ public class NumbersActivity extends AppCompatActivity {
 
         // Create an {@link WordAdapter}, whose data source is a list of {@link Word}s. The
         // adapter knows how to create list items for each item in the list.
-        WordAdapter adapter = new WordAdapter(this, words);
+        WordAdapter adapter = new WordAdapter(this, words, R.color.category_numbers);
 
 
 

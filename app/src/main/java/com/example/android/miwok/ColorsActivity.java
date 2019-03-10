@@ -19,18 +19,17 @@ public class ColorsActivity extends AppCompatActivity {
 
         ArrayList<Word> words = new ArrayList<Word>();
 
-        words.add(new Word("red", "κόκκινο"));
-        words.add(new Word("green", "πράσινο"));
-        words.add(new Word("brown", "καφέ"));
-        words.add(new Word("gray", "γκρίζο"));
+        words.add(new Word("red", "κόκκινο", R.drawable.color_red));
+        words.add(new Word("green", "πράσινο", R.drawable.color_green));
+        words.add(new Word("brown", "καφέ", R.drawable.color_brown));
+        words.add(new Word("gray", "γκρίζο", R.drawable.color_gray));
 
-        words.add(new Word("black", "μαύρο"));
-        words.add(new Word("white", "λευκό"));
-        words.add(new Word("orange", "πορτοκαλί"));
-        words.add(new Word("blue", "μπλε"));
+        words.add(new Word("black", "μαύρο", R.drawable.color_black));
+        words.add(new Word("white", "λευκό", R.drawable.color_white));
+        words.add(new Word("orange", "πορτοκαλί", R.drawable.color_mustard_yellow));
+        words.add(new Word("blue", "μπλε", R.drawable.color_dusty_yellow));
 
-        words.add(new Word("purple", "μωβ"));
-        words.add(new Word("cyan", "γαλάζιο"));
+
 
 
         // Log.v("NumbersActivity", "word at ArrayList index 9 is: " + words.get(9));
@@ -62,7 +61,7 @@ public class ColorsActivity extends AppCompatActivity {
 
         // Create an {@link WordAdapter}, whose data source is a list of {@link Word}s. The
         // adapter knows how to create list items for each item in the list.
-        WordAdapter adapter = new WordAdapter(this, words);
+        WordAdapter adapter = new WordAdapter(this, words, R.color.category_colors);
 
 
 

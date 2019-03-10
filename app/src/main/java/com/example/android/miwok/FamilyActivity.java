@@ -19,18 +19,18 @@ public class FamilyActivity extends AppCompatActivity {
 
         ArrayList<Word> words = new ArrayList<Word>();
 
-        words.add(new Word("father", "πατέρας"));
-        words.add(new Word("mother", "μητέρα"));
-        words.add(new Word("son", "γιος"));
-        words.add(new Word("daughter", "κόρη"));
+        words.add(new Word("father", "πατέρας", R.drawable.family_father));
+        words.add(new Word("mother", "μητέρα", R.drawable.family_mother));
+        words.add(new Word("son", "γιος", R.drawable.family_son));
+        words.add(new Word("daughter", "κόρη", R.drawable.family_daughter));
 
-        words.add(new Word("brother", "αδερφός"));
-        words.add(new Word("sister", "αδερφή"));
-        words.add(new Word("cousin-male", "ξάδερφος"));
-        words.add(new Word("cousin-female", "ξαδέρφη"));
+        words.add(new Word("brother", "αδερφός", R.drawable.family_younger_brother));
+        words.add(new Word("sister", "αδερφή", R.drawable.family_younger_sister));
+        words.add(new Word("cousin-male", "ξάδερφος", R.drawable.family_older_brother));
+        words.add(new Word("cousin-female", "ξαδέρφη", R.drawable.family_older_sister));
 
-        words.add(new Word("grandfather", "παππούς"));
-        words.add(new Word("grandmother", "γιαγιά"));
+        words.add(new Word("grandfather", "παππούς", R.drawable.family_grandfather));
+        words.add(new Word("grandmother", "γιαγιά", R.drawable.family_grandmother));
 
 
         // Log.v("NumbersActivity", "word at ArrayList index 9 is: " + words.get(9));
@@ -62,7 +62,7 @@ public class FamilyActivity extends AppCompatActivity {
 
         // Create an {@link WordAdapter}, whose data source is a list of {@link Word}s. The
         // adapter knows how to create list items for each item in the list.
-        WordAdapter adapter = new WordAdapter(this, words);
+        WordAdapter adapter = new WordAdapter(this, words, R.color.category_family);
 
 
 
