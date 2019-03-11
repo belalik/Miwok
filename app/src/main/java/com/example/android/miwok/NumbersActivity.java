@@ -1,29 +1,61 @@
 package com.example.android.miwok;
 
+
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class NumbersActivity extends AppCompatActivity {
+
+    private MediaPlayer mp;
+    //private ArrayList<Word> words;
+
+    /**
+     * Initialize and 'instantiate' the mCompletionListener which implements an interface.
+     * <p>
+     * Its job is to become active when MediaPlayer's (mp) audio playing ends.
+     * <p>
+     * Then I call helper method to release() (and make MediaPlayer null, which I 'm not
+     * 100% sure it's correct - due to multithreading issues and how that is handled in Android Oreo
+     * and beyond.
+     * <p>
+     * This listener gets triggered when the {@link MediaPlayer} has completed
+     * playing the audio file.
+     */
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            //Toast.makeText(NumbersActivity.this, "Audio finished", Toast.LENGTH_SHORT).show();
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
-        // create an array of words
 
-        //String[] words = new String[10];
+        //ArrayList<Word> words = new ArrayList<Word>();
 
-        ArrayList<Word> words = new ArrayList<Word>();
+        /**
+         * Needs to be declared final in order to be accessible by the anonymous class
+         * which overrides (defines) the onItemClick method, below.  Before it was
+         * initialized as a Global variable in the NumbersActivity class (outside of onCreate - code now in comments).
+         */
+        final ArrayList<Word> words = new ArrayList<>();
 
-        words.add(new Word("one", "ένα", R.drawable.number_one));
-        words.add(new Word("two", "δύο", R.drawable.number_two));
-        words.add(new Word("three", "τρία", R.drawable.number_three));
-        words.add(new Word("four", "τέσσερα", R.drawable.number_four));
+        words.add(new Word("one", "ένα", R.drawable.number_one, R.raw.number1));
+        words.add(new Word("two", "δύο", R.drawable.number_two, R.raw.number2));
+        words.add(new Word("three", "τρία", R.drawable.number_three, R.raw.number3));
+        words.add(new Word("four", "τέσσερα", R.drawable.number_four, R.raw.number4));
 
         words.add(new Word("five", "πέντε", R.drawable.number_five));
         words.add(new Word("six", "έξι", R.drawable.number_six));
@@ -66,8 +98,6 @@ public class NumbersActivity extends AppCompatActivity {
         WordAdapter adapter = new WordAdapter(this, words, R.color.category_numbers);
 
 
-
-
         // Find the {@link ListView} object in the view hierarchy of the {@link Activity}.
         // There should be a {@link ListView} with the view ID called list, which is declared in the
         // word_listyout file.
@@ -78,6 +108,101 @@ public class NumbersActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Toast.makeText(view.getContext(), "CLICKED THIS ... "+i, Toast.LENGTH_SHORT).show();
+                Log.v("NumbersActivity", "Current word at position " + i + " is " + words.get(i).toString());
+
+                /**
+                 * old code - still used in PhrasesActivity - kept it here for education purposes.
+                 * Functionality replaced by 'helper' method ..
+                 */
+
+                /**
+                 if (mp != null) {
+                 mp.stop();
+                 mp.release();
+                 mp = null;
+                 }
+                 */
+
+                if (words.get(i).hasAudio()) {
+
+                    /**
+                     * (Also) Release before a new audio file is loaded.
+                     */
+                    releaseMediaPlayer();
+                    //mp = MediaPlayer.create(getApplicationContext(), words.get(i).getAudioResourceID());
+
+                    // different way to pass the context
+                    mp = MediaPlayer.create(NumbersActivity.this, words.get(i).getAudioResourceID());
+                    mp.start();
+
+                    /**
+                     * Used to have an anonymous class here but rather than instantiating it every time,
+                     * it is now set as a global variable (look for mCompletionListener initialization)
+                     * and it is used (passed on to MediaPlayer mp) here.
+                     *
+                     */
+                    mp.setOnCompletionListener(mCompletionListener);
+
+
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // When the activity is stopped, release the MediaPlayer resources because we won't be
+        // playing any more sounds.
+        releaseMediaPlayer();
+    }
+
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (mp != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mp.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mp = null;
+        }
+    }
+
+
+    /*
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mMediaPlayer = MediaPlayer.create(NumbersActivity.this, R.raw.number_one);
+                mMediaPlayer.start();
+            }
+        });
+
+         */
+
+        /*{
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Intent intent = new Intent(MainActivity.this, SendMessage.class);
+                String message = "abc";
+                intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
+            }
+        });*/
 
         /*
         * old block code with for-loop
@@ -93,7 +218,4 @@ public class NumbersActivity extends AppCompatActivity {
             // Add this textView as another child to the root view of this layout
             rootView.addView(wordView);
         }*/
-
-
-    }
 }
