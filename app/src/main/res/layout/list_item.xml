@@ -16,11 +16,12 @@
          />
 
     <LinearLayout
+        android:id="@+id/text_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:id="@+id/text_container"
+
         android:gravity="center_vertical"
         >
 
