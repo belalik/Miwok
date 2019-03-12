@@ -61,7 +61,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
         Word currentWord = getItem(position);
 
         // Find the TextView in the list_item.xml layout with the ID version_name
-        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.english_text_view);
+        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.default_text_view);
         // Get the version name from the current AndroidFlavor object and
         // set this text on the name TextView
         defaultTextView.setText(currentWord.getDefaultTranslation());
@@ -86,6 +86,15 @@ public class WordAdapter extends ArrayAdapter<Word> {
             imageView.setVisibility(View.GONE);
         }
 
+
+        ImageView playButtonImage = (ImageView) listItemView.findViewById(R.id.play_button_image);
+
+        if (currentWord.hasAudio()) {
+            playButtonImage.setVisibility(View.VISIBLE);
+        }
+        else {
+            playButtonImage.setVisibility(View.INVISIBLE);
+        }
 
         // Set the theme color for the list item
         View textContainer = listItemView.findViewById(R.id.text_container);
