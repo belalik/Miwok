@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -75,7 +76,13 @@ public class NumbersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.word_list);
+
+        //requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
 
         // Create and setup the {@link AudioManager} to request audio focus
